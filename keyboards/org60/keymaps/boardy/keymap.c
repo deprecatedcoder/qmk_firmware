@@ -9,15 +9,6 @@
 #include "action_layer.h"
 
 
-// Keyboard Layers
-enum keyboard_layers {
-    _BASE = 0,    // Base Layer
-    _FUNCTION,    // Function Layer
-    _LIGHTING,    // Lighting Layer
-    _ADVFUNC,     // Advanced Function Layer
-};
-
-
 // Custom Keycodes
 enum custom_keycodes {
     // Three Finger Salute: Ctl-Alt-Del
@@ -50,6 +41,16 @@ void shrug_dance_finished(qk_tap_dance_state_t *state, void *user_data);
 void shrug_dance_reset(qk_tap_dance_state_t *state, void *user_data);
 
 
+// Layer Declarations
+enum keyboard_layers {
+    _BASE = 0,    // Base Layer
+    _FUNCTION,    // Function Layer
+    _LIGHTING,    // Lighting Layer
+    _ADVFUNC,     // Advanced Function Layer
+};
+
+
+// Layer Definitions
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   /* [_BLANK] = LAYOUT(
