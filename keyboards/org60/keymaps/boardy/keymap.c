@@ -290,12 +290,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   };
 
 
-// Loop
-void matrix_scan_user(void) {
-    uint8_t layer = biton32(layer_state);
-
-    switch (layer) {
-        case _BASE:
+// Actions on layer state change
+layer_state_t layer_state_set_user(layer_state_t state) {
+    switch (get_highest_layer(state)) {
+       case _BASE:
             if (!is_breathing() || get_breathing_period() != BREATHING_PERIOD) {
                 // Enable breathing
                 breathing_enable();
@@ -336,7 +334,11 @@ void matrix_scan_user(void) {
                 breathing_period_set(1);
             }
             break;
+        default:
+            break;
     }
+
+    return state;
 };
 
 
