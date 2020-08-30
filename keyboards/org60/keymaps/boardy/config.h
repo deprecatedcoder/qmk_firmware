@@ -34,7 +34,7 @@
 #define RGBLIGHT_EFFECT_SNAKE
 #define RGBLIGHT_EFFECT_STATIC_GRADIENT
 #define RGBLIGHT_EFFECT_TWINKLE
-/**/
+/ **/
 
 /* key combination for magic key command */
 #define IS_COMMAND() ( \
