@@ -14,7 +14,7 @@ enum keyboard_layers {
 // Custom Keycodes
 enum custom_keycodes {
      // ¯\_(ツ)_/¯
-    SHRUG,
+    SHRUG = SAFE_RANGE,
     // Three Finger Salute: Ctl-Alt-Del
     TFS = LCTL(LALT(KC_DEL)),
 };
