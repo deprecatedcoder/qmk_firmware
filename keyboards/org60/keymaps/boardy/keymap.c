@@ -13,20 +13,43 @@
 
 // Keyboard Layers
 enum keyboard_layers {
-  _BASE = 0,    // Base Layer
-  _FUNCTION,    // Function Layer
-  _LIGHTING,    // Lighting Layer
-  _ADVFUNC,     // Advanced Function Layer
+    _BASE = 0,    // Base Layer
+    _FUNCTION,    // Function Layer
+    _LIGHTING,    // Lighting Layer
+    _ADVFUNC,     // Advanced Function Layer
 };
 
 
 // Custom Keycodes
 enum custom_keycodes {
-     // ¯\_(ツ)_/¯
-    SHRUG = SAFE_RANGE,
     // Three Finger Salute: Ctl-Alt-Del
     TFS = LCTL(LALT(KC_DEL)),
 };
+
+
+// Tap Dance Actions
+enum tap_dance_actions{
+    TD_LAYER = 0,
+    TD_SHRUG = 1,
+};
+
+
+// Tap Dance States
+typedef enum {
+    SINGLE_TAP,
+    SINGLE_HOLD,
+    DOUBLE_TAP
+} td_state_t;
+
+static td_state_t td_state;
+
+
+// Function Declarations
+int cur_dance (qk_tap_dance_state_t *state);
+void layers_dance_finished(qk_tap_dance_state_t *state, void *user_data);
+void layers_dance_reset(qk_tap_dance_state_t *state, void *user_data);
+void shrug_dance_finished(qk_tap_dance_state_t *state, void *user_data);
+void shrug_dance_reset(qk_tap_dance_state_t *state, void *user_data);
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -45,11 +68,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ├────────────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴─────────────┤
     │               │        │        │        │        │        │        │        │        │        │        │        │                   │
     │               │        │        │        │ RGB    │ RGB    │ RGB    │ RGB    │        │        │ Page   │ Page   │                   │
-    │ Caps Lock     │ 4      │ 5      │ 6      │ Hue+   │ Hue-   │ Sat+   │ Sat-   │        │ Toggle │ Up     │ Down   │ Enter             │
+    │ Caps Lock     │ 4      │ 5      │ 6      │ Hue+   │ Hue-   │ Sat+   │ Sat-   │        │ Toggle │ Up     │ Down   │ Shift             │
     ├───────────────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴─┬────────┬────────┤
     │                   │        │        │        │ Back   │        │        │ Back   │        │        │        │ ░░░░ │        │ ░░░░░░ │
     │                   │        │        │        │ Light  │ Back   │ Back   │ Light  │ Prev   │ Next   │        │ ░░░░ │ Vol    │ ░░░░░░ │
-    │ SHRUG             │ 1      │ 2      │ 3      │ Toggle │ Light+ │ Light- │ Breathe│ Track  │ Track  │ Reset  │ ░░░░ │ Up     │ ░░░░░░ │
+    │ Shift             │ 1      │ 2      │ 3      │ Toggle │ Light+ │ Light- │ Breathe│ Track  │ Track  │ Reset  │ ░░░░ │ Up     │ ░░░░░░ │
     ├──────────┬────────┴─┬──────┴───┬────┴────────┴────────┴────────┴────────┴────────┴──────┬─┴────────┼──────┬─┴──────┼────────┼────────┤
     │          │          │          │                                                        │          │ ░░░░ │        │        │        │
     │          │          │          │                                                        │          │ ░░░░ │        │ Vol    │        │
@@ -68,11 +91,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴─────────────┤
   //│               │        │        │        │        │        │        │        │        │        │        │        │                   │
   //│               │        │        │        │        │        │        │        │        │        │        │        │                   │
-     KC_CLCK,        KC_P4,   KC_P5,   KC_P6,   RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD, KC_NO,   NK_TOGG, KC_PGUP, KC_PGDN, KC_NO, KC_ENT,
+     KC_CLCK,        KC_P4,   KC_P5,   KC_P6,   RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD, KC_NO,   NK_TOGG, KC_PGUP, KC_PGDN, KC_NO, KC_RSFT,
   //├───────────────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴─┬────────┬────────┤
   //│                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │        │ ░░░░░░ │
   //│                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │        │ ░░░░░░ │
-     SHRUG,   KC_NO,     KC_P1,   KC_P2,   KC_P3,   BL_TOGG, BL_INC,  BL_DEC,  BL_BRTG, KC_MPRV, KC_MNXT, RESET,   KC_NO, KC_VOLU, KC_NO,
+     KC_LSFT, KC_NO,     KC_P1,   KC_P2,   KC_P3,   BL_TOGG, BL_INC,  BL_DEC,  BL_BRTG, KC_MPRV, KC_MNXT, RESET,   KC_NO, KC_VOLU, KC_NO,
   //├──────────┬────────┴─┬──────┴───┬────┴────────┴────────┴────────┴────────┴────────┴──────┬─┴────────┼──────┬─┴──────┼────────┼────────┤
   //│          │          │          │                                                        │          │ ░░░░ │        │        │        │
   //│          │          │          │                                                        │          │ ░░░░ │        │        │        │
@@ -93,16 +116,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     │ Tab        │ Q      │ W      │ E      │ R      │ T      │ Y      │ U      │ I      │ O      │ P      │ [      │ ]      │ \           │
     ├────────────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴─────────────┤
     │               │        │        │        │        │        │        │        │        │        │ :      │ "      │                   │
-    │               │        │        │        │        │        │        │        │        │        │        │        │ Enter (tapped)    │
-    │ PrntScr       │ A      │ S      │ D      │ F      │ G      │ H      │ J      │ K      │ L      │ ;      │ '      │ Shift (held)      │
+    │               │        │        │        │        │        │        │        │        │        │        │        │                   │
+    │ PrntScr       │ A      │ S      │ D      │ F      │ G      │ H      │ J      │ K      │ L      │ ;      │ '      │ Enter             │
     ├───────────────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴─┬────────┬────────┤
     │                   │        │        │        │        │        │        │        │ <      │ >      │ ?      │ ░░░░ │        │ ░░░░░░ │
     │                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │        │ ░░░░░░ │
-    │ Shift             │ Z      │ X      │ C      │ V      │ B      │ N      │ M      │ ,      │ .      │ /      │ ░░░░ │ Up     │ ░░░░░░ │
+    │ Shift/SHRUG       │ Z      │ X      │ C      │ V      │ B      │ N      │ M      │ ,      │ .      │ /      │ ░░░░ │ Up     │ ░░░░░░ │
     ├──────────┬────────┴─┬──────┴───┬────┴────────┴────────┴────────┴────────┴────────┴──────┬─┴────────┼──────┬─┴──────┼────────┼────────┤
     │          │          │          │                                                        │          │ ░░░░ │        │        │        │
     │          │          │          │                                                        │          │ ░░░░ │        │        │        │
-    │ Ctrl     │ Win      │ Alt      │ Space                                                  │ Func     │ ░░░░ │ Left   │ Down   │ Right  │
+    │ Ctrl     │ Win      │ Alt      │ Space                                                  │ Layers   │ ░░░░ │ Left   │ Down   │ Right  │
     └──────────┴──────────┴──────────┴────────────────────────────────────────────────────────┴──────────┴──────┴────────┴────────┴────────┘
   */
 
@@ -117,32 +140,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴─────────────┤
   //│               │        │        │        │        │        │        │        │        │        │        │        │                   │
   //│               │        │        │        │        │        │        │        │        │        │        │        │                   │
-     KC_PSCR,        KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, KC_NO, KC_SFTENT,
+     KC_PSCR,        KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, KC_NO, KC_ENT,
   //├───────────────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴─┬────────┬────────┤
   //│                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │        │ ░░░░░░ │
   //│                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │        │ ░░░░░░ │
-     OSM(MOD_LSFT), KC_NO, KC_Z,  KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_NO, KC_UP,   KC_NO,
+     TD(TD_SHRUG), KC_NO, KC_Z,   KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_NO, KC_UP,   KC_NO,
   //├──────────┬────────┴─┬──────┴───┬────┴────────┴────────┴────────┴────────┴────────┴──────┬─┴────────┼──────┬─┴──────┼────────┼────────┤
   //│          │          │          │                                                        │          │ ░░░░ │        │        │        │
   //│          │          │          │                                                        │          │ ░░░░ │        │        │        │
-     KC_LCTL,   KC_LGUI,   KC_LALT,   KC_SPC,                                               MO(_FUNCTION),KC_NO, KC_LEFT, KC_DOWN, KC_RGHT),
+     KC_LCTL,   KC_LGUI,   KC_LALT,   KC_SPC,                                                TD(TD_LAYER), KC_NO, KC_LEFT, KC_DOWN, KC_RGHT),
   //└──────────┴──────────┴──────────┴────────────────────────────────────────────────────────┴──────────┴──────┴────────┴────────┴────────┘
 
   };
-
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    switch(keycode) {
-        case SHRUG:
-            if (record->event.pressed) {
-                send_unicode_hex_string("00AF 005C 005F 0028 30C4 0029 005F 002F 00AF");
-            }
-            return false;
-            break;
-        default:
-            return true;
-    }
-}
 
 
 // Loop
@@ -174,4 +183,87 @@ void matrix_scan_user(void) {
             }
             break;
     }
+};
+
+
+// Set the Tap Dance state
+int cur_dance (qk_tap_dance_state_t *state) {
+    if (state->count == 1) {
+        if (state->interrupted || !state->pressed) return SINGLE_TAP;
+        else return SINGLE_HOLD;
+    }
+    if (state->count == 2) return DOUBLE_TAP;
+    else return 3;
+}
+
+
+/**
+ *  Layer Tap Dance functions
+ *
+ *  1: _FUNCTION layer
+ */
+void layers_dance_finished(qk_tap_dance_state_t *state, void *user_data) {
+    switch(state->count) {
+        case 1:
+            layer_move(_FUNCTION);
+            break;
+        case 2:
+            // SEND_STRING("TEST");
+            // layer_move(_LIGHTING);
+            break;
+        case 3:
+            // layer_move(_ADVFUNC);
+            break;
+        default:
+            break;
+    }
+}
+void layers_dance_reset(qk_tap_dance_state_t *state, void *user_data) {
+    layer_move(_BASE);
+}
+
+
+/**
+ *  ¯\_(ツ)_/¯ Tap Dance functions
+ *
+ *  - Tap: OneShot SHIFT
+ *  - Hold: SHIFT
+ *  - 2: ¯\_(ツ)_/¯
+ */
+void shrug_dance_finished(qk_tap_dance_state_t *state, void *user_data) {
+    td_state = cur_dance(state);
+
+    switch(td_state) {
+        case SINGLE_TAP:
+            set_oneshot_mods(MOD_LSFT);
+            break;
+        case SINGLE_HOLD:
+            register_code (KC_LSFT);
+            break;
+        case DOUBLE_TAP:
+            // ¯\_(ツ)_/¯
+            send_unicode_hex_string("00AF 005C 005F 0028 30C4 0029 005F 002F 00AF");
+            break;
+        default:
+            break;
+    }
+}
+void shrug_dance_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (td_state) {
+        case SINGLE_TAP:
+            clear_oneshot_mods();
+            break;
+        case SINGLE_HOLD:
+            unregister_code (KC_LSFT);
+            break;
+        default:
+            break;
+    }
+}
+
+
+// Tap Dance Definitions
+qk_tap_dance_action_t tap_dance_actions[] = {
+    [TD_LAYER] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, layers_dance_finished, layers_dance_reset),
+    [TD_SHRUG] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, shrug_dance_finished, shrug_dance_reset),
 };

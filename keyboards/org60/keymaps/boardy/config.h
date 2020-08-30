@@ -1,7 +1,12 @@
 #ifndef CONFIG_USER_H
 #define CONFIG_USER_H
 
+
 #include "../../config.h"
+
+
+
+/*** OVERRIDES ***/
 
 // Boardy is a bit special and has some wires crossed, so needs these redefined
 //
@@ -15,6 +20,13 @@
 
 #undef BACKLIGHT_LEVELS
 #define BACKLIGHT_LEVELS 12
+
+// #undef TAPPING_TERM
+// #define TAPPING_TERM 100
+
+
+
+/*** CUSTOM DEFINES ***/
 
 #define BACKLIGHT_BREATHING
 #define BREATHING_PERIOD 8
@@ -35,6 +47,8 @@
 #define RGBLIGHT_EFFECT_STATIC_GRADIENT
 #define RGBLIGHT_EFFECT_TWINKLE
 / **/
+
+
 
 /* key combination for magic key command */
 #define IS_COMMAND() ( \
