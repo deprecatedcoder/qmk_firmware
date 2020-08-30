@@ -11,8 +11,12 @@
 
 // Custom Keycodes
 enum custom_keycodes {
+    // Salt: Dead center ;-)
+    S_DC = SAFE_RANGE,
+    // Salt: Oof
+    S_OOF,
     // WinCompose URL
-    WINCMPS = SAFE_RANGE,
+    WINCMPS,
     // Three Finger Salute: Ctl-Alt-Del
     TFS = LCTL(LALT(KC_DEL)),
 };
@@ -49,6 +53,7 @@ enum keyboard_layers {
     _FUNCTION,    // Function Layer
     _LIGHTING,    // Lighting Layer
     _ADVFUNC,     // Advanced Function Layer
+    _SALT,        // Salt Layer
 };
 
 
@@ -101,6 +106,52 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_NO,     KC_NO,     KC_NO,     KC_NO,                                                   _______,   KC_NO, KC_NO,   KC_NO,   KC_NO),
   //└──────────┴──────────┴──────────┴────────────────────────────────────────────────────────┴──────────┴──────┴────────┴────────┴────────┘
   */
+
+  [_SALT] = LAYOUT(
+  /* 4: Salt Layer
+    ┌────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬─────────────────┐
+    │        │        │        │        │        │        │        │        │        │        │        │        │        │                 │
+    │        │        │        │        │        │        │        │        │        │        │        │        │        │                 │
+    │        │        │        │        │        │        │        │        │        │        │        │        │        │                 │
+    ├────────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬─────────────┤
+    │            │        │        │        │        │        │        │        │        │        │        │        │        │             │
+    │            │        │        │        │        │        │        │        │        │        │        │        │        │             │
+    │            │        │        │        │        │        │        │        │        │ Oof    │        │        │        │             │
+    ├────────────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴─────────────┤
+    │               │        │        │        │        │        │        │        │        │        │        │        │                   │
+    │               │        │        │ Dead   │        │        │        │        │        │        │        │        │                   │
+    │               │        │        │ Center │        │        │        │        │        │        │        │        │                   │
+    ├───────────────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴─┬────────┬────────┤
+    │                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │        │ ░░░░░░ │
+    │                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │        │ ░░░░░░ │
+    │                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │        │ ░░░░░░ │
+    ├──────────┬────────┴─┬──────┴───┬────┴────────┴────────┴────────┴────────┴────────┴──────┬─┴────────┼──────┬─┴──────┼────────┼────────┤
+    │          │          │          │                                                        │          │ ░░░░ │        │        │        │
+    │          │          │          │                                                        │          │ ░░░░ │        │        │        │
+    │          │          │          │                                                        │ Layers   │ ░░░░ │        │        │        │
+    └──────────┴──────────┴──────────┴────────────────────────────────────────────────────────┴──────────┴──────┴────────┴────────┴────────┘  */
+
+  //┌────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬─────────────────┐
+  //│        │        │        │        │        │        │        │        │        │        │        │        │        │                 │
+  //│        │        │        │        │        │        │        │        │        │        │        │        │        │                 │
+     KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO, KC_NO,
+  //├────────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬─────────────┤
+  //│            │        │        │        │        │        │        │        │        │        │        │        │        │             │
+  //│            │        │        │        │        │        │        │        │        │        │        │        │        │             │
+     KC_NO,       KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   S_OOF,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+  //├────────────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴─────────────┤
+  //│               │        │        │        │        │        │        │        │        │        │        │        │                   │
+  //│               │        │        │        │        │        │        │        │        │        │        │        │                   │
+     KC_NO,          KC_NO,   KC_NO,   S_DC,    KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO, KC_NO,
+  //├───────────────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴─┬────────┬────────┤
+  //│                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │        │ ░░░░░░ │
+  //│                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │        │ ░░░░░░ │
+     KC_NO, KC_NO,       KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO, KC_NO,   KC_NO,
+  //├──────────┬────────┴─┬──────┴───┬────┴────────┴────────┴────────┴────────┴────────┴──────┬─┴────────┼──────┬─┴──────┼────────┼────────┤
+  //│          │          │          │                                                        │          │ ░░░░ │        │        │        │
+  //│          │          │          │                                                        │          │ ░░░░ │        │        │        │
+     KC_NO,     KC_NO,     KC_NO,     KC_NO,                                                   _______,   KC_NO, KC_NO,   KC_NO,   KC_NO),
+  //└──────────┴──────────┴──────────┴────────────────────────────────────────────────────────┴──────────┴──────┴────────┴────────┴────────┘
 
   [_ADVFUNC] = LAYOUT(
   /* 3: Advanced Function Layer
@@ -295,6 +346,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Custom key handling
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
+        case S_DC:
+            if (record->event.pressed) {
+                // Salt: Dead center ;-)
+                SEND_STRING("Dead center ;-)");
+            }
+            break;
+        case S_OOF:
+            if (record->event.pressed) {
+                // Salt: Oof...
+                SEND_STRING("Oof...");
+            }
+            break;
         case WINCMPS:
             if (record->event.pressed) {
                 // Output WinCompose URL
@@ -402,14 +465,17 @@ int cur_dance (qk_tap_dance_state_t *state) {
  */
 void layers_dance_finished(qk_tap_dance_state_t *state, void *user_data) {
     switch(state->count) {
-        case 1:
+        case _FUNCTION:
             layer_move(_FUNCTION);
             break;
-        case 2:
+        case _LIGHTING:
             layer_move(_LIGHTING);
             break;
-        case 3:
+        case _ADVFUNC:
             layer_move(_ADVFUNC);
+            break;
+        case _SALT:
+            layer_move(_SALT);
             break;
         default:
             break;
