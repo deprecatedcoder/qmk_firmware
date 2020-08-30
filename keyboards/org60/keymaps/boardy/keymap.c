@@ -461,7 +461,9 @@ int cur_dance (qk_tap_dance_state_t *state) {
  *  3: _ADVFUNC
  *      * Sleep
  *      * Enter bootloader mode
- *      * Ouput WinCompose URL
+ *      * Output WinCompose URL
+ *  4. _SALT
+ *      * Say a bunch of toxic bullshit
  */
 void layers_dance_finished(qk_tap_dance_state_t *state, void *user_data) {
     switch(state->count) {
