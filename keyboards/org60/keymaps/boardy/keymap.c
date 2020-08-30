@@ -356,8 +356,8 @@ void suspend_wakeup_init_user(void) {
 // Set the Tap Dance state
 int cur_dance (qk_tap_dance_state_t *state) {
     if (state->count == 1) {
-        if (state->interrupted || !state->pressed) return SINGLE_TAP;
-        else return SINGLE_HOLD;
+        if (!state->finished && (state->interrupted || !state->pressed)) return SINGLE_TAP;
+        else if (state->finished) return SINGLE_HOLD;
     }
     if (state->count == 2) return DOUBLE_TAP;
     else return 3;
