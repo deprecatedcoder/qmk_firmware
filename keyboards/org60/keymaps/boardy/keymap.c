@@ -1,10 +1,19 @@
+/**
+ * Boardy keymap by @deprecatedcoder
+ *
+ * Custom layout
+ *
+ * Unicode requires WinCompose:
+ *  > https://github.com/samhocevar/wincompose/releases
+ */
+
 #include QMK_KEYBOARD_H
 #include "action_layer.h"
 
 
 // Keyboard Layers
 enum keyboard_layers {
-  _BASE,        // Base Layer
+  _BASE = 0,    // Base Layer
   _FUNCTION,    // Function Layer
   _LIGHTING,    // Lighting Layer
   _ADVFUNC,     // Advanced Function Layer
@@ -123,21 +132,46 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (record->event.pressed) {
-        switch(keycode) {
-            case SHRUG:
-                if (record->event.pressed) {
-                    send_unicode_hex_string("00AF 005C 005F 0028 30C4 0029 005F 002F 00AF");
-                }
-                return false;
-                break;
-        }
+    switch(keycode) {
+        case SHRUG:
+            if (record->event.pressed) {
+                send_unicode_hex_string("00AF 005C 005F 0028 30C4 0029 005F 002F 00AF");
+            }
+            return false;
+            break;
+        default:
+            return true;
     }
-    return true;
 }
 
 
 // Loop
 void matrix_scan_user(void) {
-  // Empty
+    uint8_t layer = biton32(layer_state);
+
+    switch (layer) {
+        case _BASE:
+            // Set breathing period to default
+            if (get_breathing_period() != BREATHING_PERIOD) {
+                breathing_period_default();
+            }
+            // Set underglow to snake-mode (counterclockwise)
+            if (rgblight_get_mode() != RGBLIGHT_MODE_SNAKE+1) {
+                rgblight_mode_noeeprom(RGBLIGHT_MODE_SNAKE+1);
+            }
+            break;
+        case _FUNCTION:
+            // Set the breathing period faster and faster
+            if (get_breathing_period() > 1) {
+                breathing_period_set(get_breathing_period() - 1);
+            }
+            // Set backlight to max
+            // backlight_level(BACKLIGHT_LEVELS);
+            // Set underglow to breathing-mode (fast)
+            if (rgblight_get_mode() != RGBLIGHT_MODE_BREATHING+3) {
+                rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING+3);
+                rgblight_set_speed_noeeprom(255);
+            }
+            break;
+    }
 };
