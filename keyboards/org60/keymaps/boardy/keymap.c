@@ -150,9 +150,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_LIGHTING] = LAYOUT(
   /* 2: Lighting Layer
     ┌────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬─────────────────┐
-    │        │        │        │        │        │        │        │        │        │        │ Back   │ Back   │ Back   │ Back            │
-    │        │        │        │        │        │        │        │        │        │        │ Light  │ Light  │ Light  │ Light           │
-    │        │        │        │        │        │        │        │        │        │        │ Toggle │ -      │ +      │ Breathe         │
+    │        │        │        │        │        │        │        │        │        │        │        │        │        │                 │
+    │        │        │        │        │        │        │        │        │        │        │        │        │        │                 │
+    │        │        │        │        │        │        │        │        │        │        │        │        │        │                 │
     ├────────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬─────────────┤
     │            │        │        │        │        │        │        │        │        │        │        │        │        │             │
     │            │        │        │        │ RGB    │ RGB    │ RGB    │ RGB    │        │        │        │        │        │             │
@@ -162,13 +162,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     │               │        │        │        │ RGB    │ RGB    │ RGB    │ RGB    │        │        │        │        │                   │
     │               │        │        │        │ Hue+   │ Hue-   │ Sat+   │ Sat-   │        │        │        │        │                   │
     ├───────────────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴─┬────────┬────────┤
-    │                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │        │ ░░░░░░ │
-    │                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │        │ ░░░░░░ │
-    │                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │        │ ░░░░░░ │
+    │                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │ Back   │ ░░░░░░ │
+    │                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │ Light  │ ░░░░░░ │
+    │                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │ +      │ ░░░░░░ │
     ├──────────┬────────┴─┬──────┴───┬────┴────────┴────────┴────────┴────────┴────────┴──────┬─┴────────┼──────┬─┴──────┼────────┼────────┤
-    │          │          │          │                                                        │          │ ░░░░ │        │        │        │
-    │          │          │          │                                                        │          │ ░░░░ │        │        │        │
-    │          │          │          │                                                        │ Layers   │ ░░░░ │        │        │        │
+    │          │          │          │                                                        │          │ ░░░░ │ Back   │ Back   │ Back   │
+    │          │          │          │                                                        │          │ ░░░░ │ Light  │ Light  │ Light  │
+    │          │          │          │                                                        │ Layers   │ ░░░░ │ Breathe│ -      │ Toggle │
     └──────────┴──────────┴──────────┴────────────────────────────────────────────────────────┴──────────┴──────┴────────┴────────┴────────┘  */
 
   //┌────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬─────────────────┐
@@ -186,11 +186,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├───────────────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴─┬────────┬────────┤
   //│                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │        │ ░░░░░░ │
   //│                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │        │ ░░░░░░ │
-     KC_NO, KC_NO,       KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO, KC_NO,   KC_NO,
+     KC_NO, KC_NO,       KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO, BL_INC,  KC_NO,
   //├──────────┬────────┴─┬──────┴───┬────┴────────┴────────┴────────┴────────┴────────┴──────┬─┴────────┼──────┬─┴──────┼────────┼────────┤
   //│          │          │          │                                                        │          │ ░░░░ │        │        │        │
   //│          │          │          │                                                        │          │ ░░░░ │        │        │        │
-     KC_NO,     KC_NO,     KC_NO,     KC_NO,                                                   _______,   KC_NO, KC_NO,   KC_NO,   KC_NO),
+     KC_NO,     KC_NO,     KC_NO,     KC_NO,                                                   _______,   KC_NO, BL_BRTG, BL_DEC,  BL_TOGG),
   //└──────────┴──────────┴──────────┴────────────────────────────────────────────────────────┴──────────┴──────┴────────┴────────┴────────┘
 
 
@@ -207,7 +207,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ├────────────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴─────────────┤
     │               │        │        │        │        │        │        │        │        │        │        │        │                   │
     │               │        │        │        │        │        │        │        │        │        │ Page   │        │                   │
-    │ Caps Lock     │ 4      │ 5      │ 6      │        │        │        │        │        │        │ Down   │ Pause  │ Shift             │
+    │ Caps Lock     │ 4      │ 5      │ 6      │        │        │        │        │        │        │ Down   │ Pause  │ Enter             │
     ├───────────────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴─┬────────┬────────┤
     │                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │        │ ░░░░░░ │
     │                   │        │        │        │        │        │        │        │ Prev   │ Next   │        │ ░░░░ │ Vol    │ ░░░░░░ │
@@ -229,11 +229,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴──┬─────┴─────────────┤
   //│               │        │        │        │        │        │        │        │        │        │        │        │                   │
   //│               │        │        │        │        │        │        │        │        │        │        │        │                   │
-     KC_CLCK,        KC_P4,   KC_P5,   KC_P6,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_PGDN, KC_PAUS, KC_NO, KC_RSFT,
+     KC_CLCK,        KC_P4,   KC_P5,   KC_P6,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_PGDN, KC_PAUS, KC_NO, _______,
   //├───────────────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴─┬────────┬────────┤
   //│                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │        │ ░░░░░░ │
   //│                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │        │ ░░░░░░ │
-     KC_LSFT, KC_NO,     KC_P1,   KC_P2,   KC_P3,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_MPRV, KC_MNXT, KC_DOT,   KC_NO, KC_VOLU, KC_NO,
+     KC_LSFT, KC_NO,     KC_P1,   KC_P2,   KC_P3,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_MPRV, KC_MNXT, KC_DOT,  KC_NO, KC_VOLU, KC_NO,
   //├──────────┬────────┴─┬──────┴───┬────┴────────┴────────┴────────┴────────┴────────┴──────┬─┴────────┼──────┬─┴──────┼────────┼────────┤
   //│          │          │          │                                                        │          │ ░░░░ │        │        │        │
   //│          │          │          │                                                        │          │ ░░░░ │        │        │        │
@@ -296,30 +296,61 @@ void matrix_scan_user(void) {
 
     switch (layer) {
         case _BASE:
-            // Set breathing period to default
-            if (get_breathing_period() != BREATHING_PERIOD) {
+            if (!is_breathing() || get_breathing_period() != BREATHING_PERIOD) {
+                // Enable breathing
+                breathing_enable();
+                // Set breathing period to default
                 breathing_period_default();
             }
-            // Set underglow to snake-mode (counterclockwise)
             if (rgblight_get_mode() != RGBLIGHT_MODE_SNAKE+1) {
+                // Set underglow to snake-mode (counterclockwise)
                 rgblight_mode_noeeprom(RGBLIGHT_MODE_SNAKE+1);
             }
             break;
         case _FUNCTION:
-            // Set the breathing period faster and faster
-            if (get_breathing_period() > 1) {
-                breathing_period_set(get_breathing_period() - 1);
+            if (!is_breathing() || get_breathing_period() != (BREATHING_PERIOD/2)) {
+                // Enable breathing
+                breathing_enable();
+                // Set the breathing period twice as fast as normal
+                breathing_period_set(BREATHING_PERIOD/2);
             }
-            // Set backlight to max
-            // backlight_level(BACKLIGHT_LEVELS);
-            // Set underglow to breathing-mode (fast)
             if (rgblight_get_mode() != RGBLIGHT_MODE_BREATHING+3) {
+                // Set underglow to breathing-mode (fast)
                 rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING+3);
                 rgblight_set_speed_noeeprom(255);
             }
             break;
+        case _LIGHTING:
+            if (is_breathing()) {
+                // Disable breathing
+                breathing_disable();
+                // Set backlight to max
+                backlight_level(BACKLIGHT_LEVELS);
+            }
+            break;
+        case _ADVFUNC:
+            if (!is_breathing() || get_breathing_period() != 1) {
+                // Enable breathing
+                breathing_enable();
+                // Set the breathing period to fast
+                breathing_period_set(1);
+            }
+            break;
     }
 };
+
+
+// Set power down behavior
+void suspend_power_down_user(void) {
+    backlight_disable();
+    rgblight_disable_noeeprom();
+}
+
+// Set wake up behavior
+void suspend_wakeup_init_user(void) {
+    backlight_enable();
+    rgblight_enable_noeeprom();
+}
 
 
 // Set the Tap Dance state
