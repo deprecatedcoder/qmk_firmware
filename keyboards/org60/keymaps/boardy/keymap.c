@@ -11,6 +11,8 @@
 
 // Custom Keycodes
 enum custom_keycodes {
+    // WinCompose URL
+    WINCMPS = SAFE_RANGE,
     // Three Finger Salute: Ctl-Alt-Del
     TFS = LCTL(LALT(KC_DEL)),
 };
@@ -121,7 +123,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ├──────────┬────────┴─┬──────┴───┬────┴────────┴────────┴────────┴────────┴────────┴──────┬─┴────────┼──────┬─┴──────┼────────┼────────┤
     │          │          │          │                                                        │          │ ░░░░ │        │        │        │
     │          │          │          │                                                        │          │ ░░░░ │        │        │        │
-    │          │          │          │                                                        │ Layers   │ ░░░░ │        │        │        │
+    │          │          │          │ WinCompose URL                                         │ Layers   │ ░░░░ │        │        │        │
     └──────────┴──────────┴──────────┴────────────────────────────────────────────────────────┴──────────┴──────┴────────┴────────┴────────┘  */
 
   //┌────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬─────────────────┐
@@ -143,7 +145,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├──────────┬────────┴─┬──────┴───┬────┴────────┴────────┴────────┴────────┴────────┴──────┬─┴────────┼──────┬─┴──────┼────────┼────────┤
   //│          │          │          │                                                        │          │ ░░░░ │        │        │        │
   //│          │          │          │                                                        │          │ ░░░░ │        │        │        │
-     KC_NO,     KC_NO,     KC_NO,     KC_NO,                                                   _______,   KC_NO, KC_NO,   KC_NO,   KC_NO),
+     KC_NO,     KC_NO,     KC_NO,     WINCMPS,                                                 _______,   KC_NO, KC_NO,   KC_NO,   KC_NO),
   //└──────────┴──────────┴──────────┴────────────────────────────────────────────────────────┴──────────┴──────┴────────┴────────┴────────┘
 
 
@@ -290,6 +292,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   };
 
 
+// Custom key handling
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case WINCMPS:
+            if (record->event.pressed) {
+                // Output WinCompose URL
+                SEND_STRING("https://github.com/samhocevar/wincompose/releases");
+            }
+            break;
+        }
+
+    return true;
+};
+
+
 // Actions on layer state change
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
@@ -381,6 +398,7 @@ int cur_dance (qk_tap_dance_state_t *state) {
  *  3: _ADVFUNC
  *      * Sleep
  *      * Enter bootloader mode
+ *      * Ouput WinCompose URL
  */
 void layers_dance_finished(qk_tap_dance_state_t *state, void *user_data) {
     switch(state->count) {
