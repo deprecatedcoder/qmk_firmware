@@ -368,6 +368,17 @@ int cur_dance (qk_tap_dance_state_t *state) {
  *  Layer Tap Dance functions
  *
  *  1: _FUNCTION layer
+ *      * General functions (Fkeys, *Locks. etc)
+ *      * NumPad
+ *      * Media controls
+ *      * Calculator launch
+ *      * TFS (Ctrl+Alt+Del)
+ *  2: _LIGHTING
+ *      * LED key backlight controls
+ *      * RGB underglow controls
+ *  3: _ADVFUNC
+ *      * Sleep
+ *      * Enter bootloader mode
  */
 void layers_dance_finished(qk_tap_dance_state_t *state, void *user_data) {
     switch(state->count) {
