@@ -360,6 +360,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   };
 
 
+// Set power down behavior
+void suspend_power_down_user(void) {
+    backlight_disable();
+    rgblight_disable_noeeprom();
+}
+
+
+// Set wake up behavior
+void suspend_wakeup_init_user(void) {
+    backlight_enable();
+    breathing_disable();
+    backlight_level_noeeprom(bl_level);
+    rgblight_enable_noeeprom();
+}
+
+
 // Custom key handling
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
@@ -439,28 +455,11 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 };
 
 
-// Set power down behavior
-void suspend_power_down_user(void) {
-    backlight_disable();
-    rgblight_disable_noeeprom();
-}
-
-// Set wake up behavior
-void suspend_wakeup_init_user(void) {
-    backlight_enable();
-    rgblight_enable_noeeprom();
-}
-
-
-// Set the Tap Dance state
-int cur_dance (qk_tap_dance_state_t *state) {
-    if (state->count == 1) {
-        if (!state->finished && (state->interrupted || !state->pressed)) return SINGLE_TAP;
-        else if (state->finished) return SINGLE_HOLD;
-    }
-    if (state->count == 2) return DOUBLE_TAP;
-    else return 3;
-}
+// Tap Dance Definitions
+qk_tap_dance_action_t tap_dance_actions[] = {
+    [TD_LAYER] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, layers_dance_finished, layers_dance_reset),
+    [TD_SHRUG] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, shrug_dance_finished, shrug_dance_reset),
+};
 
 
 /**
@@ -547,8 +546,14 @@ void shrug_dance_reset(qk_tap_dance_state_t *state, void *user_data) {
 }
 
 
-// Tap Dance Definitions
-qk_tap_dance_action_t tap_dance_actions[] = {
-    [TD_LAYER] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, layers_dance_finished, layers_dance_reset),
-    [TD_SHRUG] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, shrug_dance_finished, shrug_dance_reset),
-};
+// Set the Tap Dance state
+int cur_dance (qk_tap_dance_state_t *state) {
+    if (state->count == 1) {
+        if (!state->pressed) return SINGLE_TAP;
+        else return SINGLE_HOLD;
+    } else if (state->count == 2) {
+        return DOUBLE_TAP;
+    } else {
+        return A_LOT_OF_TAPS;
+    }
+}
