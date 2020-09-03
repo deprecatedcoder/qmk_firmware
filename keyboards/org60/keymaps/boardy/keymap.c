@@ -510,42 +510,30 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 /**
  *  Layer Tap Dance functions
  *
- *  1: _FUNCTION layer
- *      * General functions (Fkeys, *Locks. etc)
- *      * NumPad
- *      * Media controls
- *      * Calculator launch
- *      * TFS (Ctrl+Alt+Del)
- *  2: _LIGHTING
- *      * LED key backlight controls
- *      * RGB underglow controls
- *  3: _ADVFUNC
- *      * Sleep
- *      * Enter bootloader mode
- *      * Output WinCompose URL
- *  4. _SALT
- *      * Say a bunch of toxic bullshit
+ *  - Tap or hold: toggle _FUNCTION layer and return to _BASE
  */
 void layers_dance_finished(qk_tap_dance_state_t *state, void *user_data) {
-    switch(state->count) {
-        case _FUNCTION:
-            layer_move(_FUNCTION);
-            break;
-        case _LIGHTING:
-            layer_move(_LIGHTING);
-            break;
-        case _ADVFUNC:
-            layer_move(_ADVFUNC);
-            break;
-        case _SALT:
-            layer_move(_SALT);
+    td_state = cur_dance(state);
+
+    switch(td_state) {
+        case SINGLE_TAP:
+        case SINGLE_HOLD:
+            layer_clear();
+            layer_on(_FUNCTION);
             break;
         default:
             break;
     }
 }
 void layers_dance_reset(qk_tap_dance_state_t *state, void *user_data) {
-    layer_move(_BASE);
+    switch(td_state) {
+        case SINGLE_TAP:
+        case SINGLE_HOLD:
+            layer_off(_FUNCTION);
+            break;
+        default:
+            break;
+    }
 }
 
 
