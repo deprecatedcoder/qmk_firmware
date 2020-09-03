@@ -11,8 +11,9 @@
 
 // Custom Keycodes
 enum custom_keycodes {
+    BOARDY = SAFE_RANGE,
     // Speed up backlight breathing
-    BL_FAST = SAFE_RANGE,
+    BL_FAST,
     // Slow down backlight breathing
     BL_SLOW,
     // Salt: All you...
@@ -184,8 +185,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     │               │        │        │        │        │        │        │        │        │        │        │        │                   │
     ├───────────────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴─┬────────┬────────┤
     │                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │        │ ░░░░░░ │
-    │                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │        │ ░░░░░░ │
-    │                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │        │ ░░░░░░ │
+    │                   │        │        │        │        │        │        │        │        │        │ Boardy │ ░░░░ │        │ ░░░░░░ │
+    │                   │        │        │        │        │        │        │        │        │        │ Keymap │ ░░░░ │        │ ░░░░░░ │
     ├──────────┬────────┴─┬──────┴───┬────┴────────┴────────┴────────┴────────┴────────┴──────┬─┴────────┼──────┬─┴──────┼────────┼────────┤
     │          │          │          │                                                        │          │ ░░░░ │        │        │        │
     │          │          │          │                                                        │          │ ░░░░ │        │        │        │
@@ -207,7 +208,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├───────────────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴───┬────┴─┬────────┬────────┤
   //│                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │        │ ░░░░░░ │
   //│                   │        │        │        │        │        │        │        │        │        │        │ ░░░░ │        │ ░░░░░░ │
-     KC_NO, KC_NO,       KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO, KC_NO,   KC_NO,
+     KC_NO, KC_NO,       KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   BOARDY,  KC_NO, KC_NO,   KC_NO,
   //├──────────┬────────┴─┬──────┴───┬────┴────────┴────────┴────────┴────────┴────────┴──────┬─┴────────┼──────┬─┴──────┼────────┼────────┤
   //│          │          │          │                                                        │          │ ░░░░ │        │        │        │
   //│          │          │          │                                                        │          │ ░░░░ │        │        │        │
@@ -393,6 +394,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case BL_BRTG:
             // Store current backlight breathing state
             bl_breathing = is_breathing();
+            break;
+        case BOARDY:
+            if (record->event.pressed) {
+                // Link to Boardy's keymap
+                SEND_STRING("https://github.com/deprecatedcoder/qmk_firmware/blob/master/keyboards/org60/keymaps/boardy/keymap.c");
+            }
             break;
         case S_ALLYOU:
             if (record->event.pressed) {
