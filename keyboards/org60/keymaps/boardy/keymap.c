@@ -51,6 +51,10 @@ typedef enum {
 
 static td_state_t td_state;
 
+// Default backlight level to lowest level that's not off
+int bl_level = 1;
+bool bl_breathing;
+
 
 // Function Declarations
 int cur_dance (qk_tap_dance_state_t *state);
