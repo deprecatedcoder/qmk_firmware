@@ -11,10 +11,20 @@
 
 // Custom Keycodes
 enum custom_keycodes {
+    // Speed up backlight breathing
+    BL_FAST = SAFE_RANGE,
+    // Slow down backlight breathing
+    BL_SLOW,
+    // Salt: All you...
+    S_ALLYOU,
     // Salt: Dead center ;-)
-    S_DC = SAFE_RANGE,
+    S_DC,
+    // Salt: Does anyone else...
+    S_DISTRACT,
     // Salt: Oof...
     S_OOF,
+    // Salt: You got this...
+    S_YOUGOT,
     // WinCompose URL
     WINCMPS,
     // Three Finger Salute: Ctl-Alt-Del
