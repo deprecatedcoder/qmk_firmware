@@ -21,8 +21,8 @@
 #undef BACKLIGHT_LEVELS
 #define BACKLIGHT_LEVELS 12
 
-// #undef TAPPING_TERM
-// #define TAPPING_TERM 100
+#undef TAPPING_TERM
+#define TAPPING_TERM 220
 
 
 
