@@ -44,9 +44,7 @@ typedef enum {
     SINGLE_TAP,
     SINGLE_HOLD,
     DOUBLE_TAP,
-    TRIPLE_TAP,
-    QUADRUPLE_TAP,
-    QUINTUPLE_TAP,
+    A_LOT_OF_TAPS,
 } td_state_t;
 
 static td_state_t td_state;
@@ -546,7 +544,7 @@ void layers_dance_reset(qk_tap_dance_state_t *state, void *user_data) {
  *
  *  - Tap: OneShot SHIFT
  *  - Hold: SHIFT
- *  - 2: ¯\_(ツ)_/¯
+ *  - 2+: ¯\_(ツ)_/¯
  */
 void shrug_dance_finished(qk_tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
@@ -559,9 +557,7 @@ void shrug_dance_finished(qk_tap_dance_state_t *state, void *user_data) {
             register_code (KC_LSFT);
             break;
         case DOUBLE_TAP:
-        case TRIPLE_TAP:
-        case QUADRUPLE_TAP:
-        case QUINTUPLE_TAP:
+        case A_LOT_OF_TAPS:
             // ¯\_(ツ)_/¯
             send_unicode_hex_string("00AF 005C 005F 0028 30C4 0029 005F 002F 00AF");
             break;
