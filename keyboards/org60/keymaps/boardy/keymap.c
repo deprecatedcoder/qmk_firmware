@@ -379,16 +379,61 @@ void suspend_wakeup_init_user(void) {
 // Custom key handling
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
+        case BL_FAST:
+            // Decrease the breathing period (breathe faster)
+            breathing_period_dec();
+            break;
+        case BL_SLOW:
+            // Increase the breathing period (breathe slower)
+            breathing_period_inc();
+            break;
+        case BL_DEC:
+        case BL_INC:
+            // Store current backlight level
+            bl_level = get_backlight_level();
+            break;
+        case BL_BRTG:
+            // Store current backlight breathing state
+            bl_breathing = is_breathing();
+            break;
+        case S_ALLYOU:
+            if (record->event.pressed) {
+                // Salt: All you...
+                tap_code(KC_Y);
+                SEND_STRING("All you...");
+                tap_code(KC_ENT);
+            }
+            break;
         case S_DC:
             if (record->event.pressed) {
                 // Salt: Dead center ;-)
+                tap_code(KC_T);
                 SEND_STRING("Dead center ;-)");
+                tap_code(KC_ENT);
+            }
+            break;
+        case S_DISTRACT:
+            if (record->event.pressed) {
+                // Salt: Does anyone else...
+                tap_code(KC_T);
+                SEND_STRING("Does anyone else find it really distracting when someone sende a really long message right at faceoff?");
+                tap_code(KC_ENT);
             }
             break;
         case S_OOF:
             if (record->event.pressed) {
                 // Salt: Oof...
+                tap_code(KC_T);
                 SEND_STRING("Oof...");
+                tap_code(KC_ENT);
+            }
+            break;
+        case S_YOUGOT:
+            if (record->event.pressed) {
+                // Salt: You got this...
+                tap_code(KC_Y);
+                SEND_STRING("You got this...");
+                tap_code(KC_ENT);
             }
             break;
         case WINCMPS:
