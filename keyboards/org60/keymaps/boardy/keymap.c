@@ -457,7 +457,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             // Set backlight to stored level
             if (get_backlight_level() != bl_level) backlight_level_noeeprom(bl_level);
 
-                // Set underglow to snake-mode (counterclockwise)
+            // Set underglow to snake-mode (counterclockwise)
             if (rgblight_get_mode() != RGBLIGHT_MODE_SNAKE+1) rgblight_mode_noeeprom(RGBLIGHT_MODE_SNAKE+1);
 
             break;
@@ -476,18 +476,18 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
             break;
         case _LIGHTING:
-                // Disable breathing
+            // Disable breathing
             if (is_breathing()) breathing_disable();
 
-                // Set backlight to max
+            // Set backlight to max
             if (get_backlight_level() != BACKLIGHT_LEVELS) backlight_level_noeeprom(BACKLIGHT_LEVELS);
 
             break;
         case _ADVFUNC:
-                // Enable breathing
+            // Enable breathing
             if (!is_breathing()) breathing_enable();
 
-                // Set the breathing period to fast
+            // Set the breathing period to fast
             if (get_breathing_period() != 1) breathing_period_set(1);
 
             // Set backlight to max
