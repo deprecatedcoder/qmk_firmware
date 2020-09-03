@@ -452,45 +452,49 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
        case _BASE:
-            if (!is_breathing() || get_breathing_period() != BREATHING_PERIOD) {
-                // Enable breathing
-                breathing_enable();
-                // Set breathing period to default
-                breathing_period_default();
-            }
-            if (rgblight_get_mode() != RGBLIGHT_MODE_SNAKE+1) {
+       case _SALT:
+            // Toggle breathing to match state
+            if (is_breathing() != bl_breathing) breathing_toggle();
+
+            // Set backlight to stored level
+            if (get_backlight_level() != bl_level) backlight_level_noeeprom(bl_level);
+
                 // Set underglow to snake-mode (counterclockwise)
-                rgblight_mode_noeeprom(RGBLIGHT_MODE_SNAKE+1);
-            }
+            if (rgblight_get_mode() != RGBLIGHT_MODE_SNAKE+1) rgblight_mode_noeeprom(RGBLIGHT_MODE_SNAKE+1);
+
             break;
         case _FUNCTION:
-            if (!is_breathing() || get_breathing_period() != (BREATHING_PERIOD/2)) {
-                // Enable breathing
-                breathing_enable();
-                // Set the breathing period twice as fast as normal
-                breathing_period_set(BREATHING_PERIOD/2);
-            }
+            // Toggle breathing to match state
+            if (is_breathing() != bl_breathing) breathing_toggle();
+
+            // Set backlight to double stored level
+            if (get_backlight_level() != bl_level*2) backlight_level_noeeprom(bl_level*2);
+
+            // Set underglow to breathing-mode (fast)
             if (rgblight_get_mode() != RGBLIGHT_MODE_BREATHING+3) {
-                // Set underglow to breathing-mode (fast)
                 rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING+3);
                 rgblight_set_speed_noeeprom(255);
             }
+
             break;
         case _LIGHTING:
-            if (is_breathing()) {
                 // Disable breathing
-                breathing_disable();
+            if (is_breathing()) breathing_disable();
+
                 // Set backlight to max
-                backlight_level(BACKLIGHT_LEVELS);
-            }
+            if (get_backlight_level() != BACKLIGHT_LEVELS) backlight_level_noeeprom(BACKLIGHT_LEVELS);
+
             break;
         case _ADVFUNC:
-            if (!is_breathing() || get_breathing_period() != 1) {
                 // Enable breathing
-                breathing_enable();
+            if (!is_breathing()) breathing_enable();
+
                 // Set the breathing period to fast
-                breathing_period_set(1);
-            }
+            if (get_breathing_period() != 1) breathing_period_set(1);
+
+            // Set backlight to max
+            if(get_backlight_level() != BACKLIGHT_LEVELS) backlight_level_noeeprom(BACKLIGHT_LEVELS);
+
             break;
         default:
             break;
