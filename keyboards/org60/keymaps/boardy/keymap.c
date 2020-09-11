@@ -577,6 +577,7 @@ void shrug_dance_finished(qk_tap_dance_state_t *state, void *user_data) {
             register_code (KC_LSFT);
             break;
         case DOUBLE_TAP:
+            break;
         case A_LOT_OF_TAPS:
             // ¯\_(ツ)_/¯
             send_unicode_hex_string("00AF 005C 005F 0028 30C4 0029 005F 002F 00AF");
