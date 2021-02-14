@@ -66,7 +66,7 @@ static uint16_t fade_in_timer;
 static double bl_fade_in_duration = 250;
 
 // How long until fading out (in ms)
-static double bl_fade_out_timeout = 2500;
+static double bl_fade_out_timeout = 3500;
 
 // How long the fade out should take (in ms)
 static double bl_fade_out_duration = 500;
