@@ -50,9 +50,26 @@ typedef enum {
 
 static td_state_t td_state;
 
+
 // Default backlight level to 3/4 brightness
 int bl_level = BACKLIGHT_LEVELS * .75;
 bool bl_breathing;
+
+
+// Key pressed timer
+static uint16_t key_timer;
+
+// Fade in timer
+static uint16_t fade_in_timer;
+
+// How long the fade in should take (in ms)
+static double bl_fade_in_duration = 250;
+
+// How long until fading out (in ms)
+static double bl_fade_out_timeout = 2500;
+
+// How long the fade out should take (in ms)
+static double bl_fade_out_duration = 500;
 
 
 // Function Declarations
@@ -432,7 +449,7 @@ void suspend_power_down_user(void) {
 void suspend_wakeup_init_user(void) {
     backlight_enable();
     breathing_disable();
-    backlight_level_noeeprom(bl_level);
+    backlight_level_noeeprom(1);
     rgblight_enable_noeeprom();
 }
 
@@ -450,8 +467,39 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 }
 
 
+// Runs constantly in the background, in a loop.
+void matrix_scan_user(void) {
+
+    uint8_t layer = biton32(layer_state);
+
+    switch (layer) {
+        case _BASE:
+            if (get_backlight_level() == 1 && timer_elapsed(fade_in_timer) > bl_fade_in_duration && timer_elapsed(key_timer) < bl_fade_in_duration) {
+                fade_in_timer = timer_read();
+            } else
+            if (timer_elapsed(fade_in_timer) < bl_fade_in_duration) {
+                int new_bl_level = (timer_elapsed(fade_in_timer) / bl_fade_in_duration) * bl_level;
+
+                if (new_bl_level > get_backlight_level() && new_bl_level < bl_level) backlight_level_noeeprom(new_bl_level);
+            } else
+            if (get_backlight_level() != 1 && timer_elapsed(key_timer) > bl_fade_out_timeout && timer_elapsed(fade_in_timer) > bl_fade_in_duration) {
+                int new_bl_level = bl_level - ((timer_elapsed(key_timer) - bl_fade_out_timeout) / (bl_fade_out_duration / bl_level));
+
+                if (new_bl_level > 0) backlight_level_noeeprom(new_bl_level);
+            } else {
+                // Set backlight to stored level
+                if ((get_backlight_level() > 1) && (get_backlight_level() < bl_level)) backlight_level_noeeprom(bl_level);
+            }
+        default:
+            break;
+    }
+};
+
+
 // Custom key handling
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    key_timer = timer_read();
+
     switch (keycode) {
         case BL_FAST:
             // Decrease the breathing period (breathe faster)
@@ -496,7 +544,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 // Salt: Does anyone else...
                 tap_code(KC_T);
-                SEND_STRING("Does anyone else find it really distracting when someone sende a really long message right at faceoff?");
+                SEND_STRING("Does anyone else find it really distracting when someone sends a really long message right at faceoff?");
                 tap_code(KC_ENT);
             }
             break;
@@ -531,19 +579,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // Actions on layer state change
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
-       case _BASE:
-        //    The default should be either off or most dim
-        //    if (keypress)
-        //        set pressTime to currentTime
-        //
-        //    if (currentTime - pressTime < TIMEOUT_TIME)
-        //        set brightness to ACTIVE
-        //    else if (currentTime - pressTime > )
-        //        set brightness
-        //
-        //    break;
-       case _ITALICS:
-       case _SALT:
+        case _BASE:
+        case _ITALICS:
+        case _SALT:
             // Toggle breathing to match state
             if (is_breathing() != bl_breathing) breathing_toggle();
 
