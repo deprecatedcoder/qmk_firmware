@@ -50,8 +50,8 @@ typedef enum {
 
 static td_state_t td_state;
 
-// Default backlight level to lowest level that's not off
-int bl_level = 1;
+// Default backlight level to 3/4 brightness
+int bl_level = BACKLIGHT_LEVELS * .75;
 bool bl_breathing;
 
 
@@ -532,6 +532,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
        case _BASE:
+        //    The default should be either off or most dim
+        //    if (keypress)
+        //        set pressTime to currentTime
+        //
+        //    if (currentTime - pressTime < TIMEOUT_TIME)
+        //        set brightness to ACTIVE
+        //    else if (currentTime - pressTime > )
+        //        set brightness
+        //
+        //    break;
        case _ITALICS:
        case _SALT:
             // Toggle breathing to match state

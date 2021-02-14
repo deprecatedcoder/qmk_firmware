@@ -7,8 +7,11 @@
 
 /*** OVERRIDES ***/
 
-// #undef BACKLIGHT_LEVELS
-// #define BACKLIGHT_LEVELS 12
+#undef BACKLIGHT_LEVELS
+#define BACKLIGHT_LEVELS 12
+
+#undef DEBOUNCE
+#define DEBOUNCE 10
 
 #define TAPPING_TERM 200
 #define TAPPING_TERM_PER_KEY
